@@ -26,9 +26,6 @@
   font-display: swap;
 }
 
-body {
-  font-family: "Poppins", "IRANSans", sans-serif;
-}
 * {
   box-sizing: border-box;
 }
@@ -41,7 +38,7 @@ body {
   margin: 0;
   background: #f8fafc;
   color: #1e293b;
-  font-family: var(--font-poppins), "IRANSans", sans-serif;
+  font-family: "Poppins", "IRANSans";
 }
 
 ::selection {
