@@ -2,15 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body { margin: 0; background: #08111f; color: #e8eef8; }
-::selection { background: #5eead4; color: #07111e; }
+@font-face {
+  font-family: "IRANSans";
+  src: url("/fonts/IRANSansWeb.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IRANSans";
+  src: url("/fonts/IRANSansWeb_Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/Poppins-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  font-family: "Poppins", "IRANSans", sans-serif;
+}
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #f8fafc;
+  color: #1e293b;
+  font-family: var(--font-poppins), "IRANSans", sans-serif;
+}
+
+::selection {
+  background: #99f6e4;
+  color: #134e4a;
+}
 
 .grid-lines {
-  background-image: linear-gradient(rgba(148,163,184,.055) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,.055) 1px, transparent 1px);
+  background-image: linear-gradient(
+      rgba(148, 163, 184, 0.1) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.1) 1px, transparent 1px);
   background-size: 54px 54px;
 }
 
-.orb { filter: blur(1px); animation: drift 9s ease-in-out infinite alternate; }
-@keyframes drift { to { transform: translate3d(-24px, 18px, 0) scale(1.08); } }
+.orb {
+  filter: blur(1px);
+  animation: drift 9s ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+  to {
+    transform: translate3d(-24px, 18px, 0) scale(1.08);
+  }
+}

@@ -4,7 +4,9 @@ const config: Config = {
   content: ["./app/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
-      fontFamily: { sans: ["Tahoma", "Arial", "sans-serif"] },
+      fontFamily: {
+        sans: ["Poppins", "IRANSans"],
+      },
       boxShadow: { glow: "0 20px 65px rgba(94, 234, 212, 0.14)" },
     },
   },
