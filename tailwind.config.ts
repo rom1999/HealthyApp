@@ -5,7 +5,7 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Poppins", "IRANSans"],
+        sans: ["Poppins", "BNazanin"],
       },
       boxShadow: { glow: "0 20px 65px rgba(94, 234, 212, 0.14)" },
     },
