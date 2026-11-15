@@ -1,155 +1,400 @@
-import { Arrow, Spark } from "@/components/icons";
+import {
+  ArrowLeft,
+  Bell,
+  CalendarDays,
+  ChartNoAxesCombined,
+  CircleUserRound,
+  ClipboardList,
+  House,
+  Leaf,
+  Salad,
+  Sun,
+  Utensils,
+  UserRound,
+  Weight,
+  Target,
+  Sparkles,
+} from "lucide-react";
+import Link from "next/link";
 
-const features = [
-  ["ساختار مقیاس‌پذیر", "اپ‌روتر Next.js و مسیرهای آماده برای رشد محصول."],
-  ["کاملاً Type-safe", "TypeScript با تنظیمات سخت‌گیرانه و کدی مطمئن."],
-  ["رابط واکنش‌گرا", "طراحی دقیق برای نمایش بی‌نقص در هر اندازه‌ صفحه."],
+const meals = [
+  {
+    name: "صبحانه",
+    time: "۰۸:۰۰",
+    title: "تخم‌مرغ و نان سبوس‌دار",
+    detail: "۲ عدد تخم‌مرغ، نان سبوس‌دار و خیار",
+    calories: 380,
+    icon: Sun,
+    color: "bg-amber-50",
+  },
+  {
+    name: "میان‌وعده",
+    time: "۱۱:۰۰",
+    title: "ماست یونانی و گردو",
+    detail: "ماست کم‌چرب، گردو و چند عدد توت",
+    calories: 220,
+    icon: Salad,
+    color: "bg-orange-50",
+  },
+  {
+    name: "ناهار",
+    time: "۱۴:۰۰",
+    title: "مرغ گریل و برنج",
+    detail: "سینه مرغ، برنج و سبزیجات",
+    calories: 520,
+    icon: Utensils,
+    color: "bg-green-50",
+  },
+  {
+    name: "شام",
+    time: "۲۰:۰۰",
+    title: "سالاد پروتئینی",
+    detail: "مرغ، کاهو، گوجه و سس ماست",
+    calories: 360,
+    icon: Leaf,
+    color: "bg-emerald-50",
+  },
 ];
+
+const navigation = [
+  { label: "خانه", icon: House, active: true, href: "#" },
+  { label: "برنامه غذایی", icon: ClipboardList, href: "#meals" },
+  { label: "پیشرفت", icon: ChartNoAxesCombined, href: "#progress" },
+  { label: "پروفایل", icon: CircleUserRound, href: "/profile" },
+];
+
+function Sidebar() {
+  return (
+    <aside className="hidden lg:flex fixed right-0 top-0 z-20 h-screen w-64 flex-col border-l border-[#E8EDE8] bg-white px-6 py-8">
+      <a href="#" className="flex items-center gap-3">
+        <div className="grid h-10 w-10 place-items-center rounded-xl bg-[#244B3B] text-xl text-white">
+          H
+        </div>
+        <span className="text-xl font-bold text-[#244B3B]">Healty</span>
+      </a>
+
+      <p className="mb-4 mt-12 text-xs font-medium text-gray-400">منوی اصلی</p>
+
+      <nav className="space-y-2">
+        {navigation.map((item) => (
+          <a
+            key={item.label}
+            href={item.href}
+            className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm transition ${
+              item.active
+                ? "bg-[#E9F0EA] font-semibold text-[#244B3B]"
+                : "text-gray-500 hover:bg-gray-50 hover:text-[#244B3B]"
+            }`}
+          >
+            <item.icon size={20} strokeWidth={1.8} /> {item.label}
+          </a>
+        ))}
+      </nav>
+
+      <div className="mt-auto rounded-2xl bg-[#F2F6F2] p-4">
+        <p className="text-sm font-semibold text-[#244B3B]">
+          قدم به قدم تا سلامتی
+        </p>
+        <p className="mt-2 text-xs leading-6 text-gray-500">
+          استمرار در مسیر مهم‌تر از سرعت رسیدن به هدف است.
+        </p>
+      </div>
+    </aside>
+  );
+}
+
+function ProgressRing() {
+  return (
+    <div className="relative grid h-36 w-36 shrink-0 place-items-center">
+      <svg viewBox="0 0 120 120" className="h-full w-full -rotate-90">
+        <circle
+          cx="60"
+          cy="60"
+          r="49"
+          fill="none"
+          stroke="#E9F0EA"
+          strokeWidth="10"
+        />
+        <circle
+          cx="60"
+          cy="60"
+          r="49"
+          fill="none"
+          stroke="#789783"
+          strokeWidth="10"
+          strokeLinecap="round"
+          strokeDasharray="308"
+          strokeDashoffset="92"
+        />
+      </svg>
+      <div className="absolute text-center">
+        <p className="text-3xl font-bold text-[#244B3B]">۷۰٪</p>
+        <p className="mt-1 text-xs text-gray-400">از هدف روزانه</p>
+      </div>
+    </div>
+  );
+}
+
+function StatCard({
+  title,
+  value,
+  unit,
+  description,
+  icon: Icon,
+}: {
+  title: string;
+  value: string;
+  unit: string;
+  description: string;
+  icon: React.ElementType;
+}) {
+  return (
+    <div className="rounded-2xl border border-[#E9EDE9] bg-white p-5">
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-gray-500">{title}</p>
+        <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#F1F5F1] text-[#52745E]">
+          <Icon size={19} strokeWidth={1.7} />
+        </span>
+      </div>
+
+      <div className="mt-5 flex items-baseline gap-1">
+        <span className="text-2xl font-bold text-[#244B3B]">{value}</span>
+        <span className="text-xs text-gray-400">{unit}</span>
+      </div>
+
+      <p className="mt-2 text-xs text-gray-400">{description}</p>
+    </div>
+  );
+}
 
 export default function Home() {
   return (
-    <main className="min-h-screen overflow-hidden bg-slate-50 text-slate-800">
-      <div className="relative isolate grid-lines">
-        <div className="orb absolute -right-28 top-6 -z-10 h-80 w-80 rounded-full bg-teal-400/20 blur-3xl" />
-        <div className="orb absolute -left-20 top-72 -z-10 h-72 w-72 rounded-full bg-indigo-400/15 blur-3xl" />
+    <main className="min-h-screen bg-[#F7F8F6] text-gray-800">
+      <Sidebar />
 
-        <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-7 lg:px-8">
-          <a
-            href="#"
-            className="flex items-center gap-2.5 text-lg font-bold tracking-tight text-slate-900"
-          >
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-teal-300 text-slate-900">
-              <Spark className="h-5 w-5" />
-            </span>
-            نُوا
-          </a>
+      <div className="pb-24 lg:mr-64 lg:pb-8">
+        <header className="sticky top-0 z-10 border-b border-[#E9EDE9] bg-white/90 px-5 py-4 backdrop-blur-md sm:px-8">
+          <div className="flex items-center gap-3">
+            <Link
+              href="/login"
+              className="rounded-xl border border-[#244B3B] px-4 py-2 text-sm text-[#244B3B]"
+            >
+              ورود
+            </Link>
 
-          <nav className="hidden items-center gap-8 text-sm text-slate-600 md:flex">
-            <a href="#ویژگی‌ها" className="transition hover:text-teal-700">
-              ویژگی‌ها
-            </a>
-            <a href="#درباره" className="transition hover:text-teal-700">
-              درباره قالب
-            </a>
-            <a href="#شروع" className="transition hover:text-teal-700">
-              راهنما
-            </a>
-          </nav>
+            <Link
+              href="/register"
+              className="rounded-xl bg-[#244B3B] px-4 py-2 text-sm text-white"
+            >
+              ثبت‌نام
+            </Link>
+          </div>
+          <div className="mx-auto flex max-w-6xl items-center justify-between">
+            <div>
+              <p className="text-xs text-gray-400">پنجشنبه، ۲۲ آبان ۱۴۰۵</p>
+              <h1 className="mt-1 text-lg font-bold text-[#244B3B]">
+                سلام، رومینا 👋
+              </h1>
+            </div>
 
-          <a
-            href="#شروع"
-            className="rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-teal-500 hover:text-teal-700"
-          >
-            شروع پروژه
-          </a>
+            <button
+              aria-label="اعلان‌ها"
+              className="relative grid h-10 w-10 place-items-center rounded-xl border border-gray-100 bg-white text-lg"
+            >
+              ♧
+              <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-[#789783]" />
+            </button>
+          </div>
         </header>
 
-        <section className="mx-auto max-w-6xl px-6 pb-24 pt-16 text-center lg:px-8 lg:pb-32 lg:pt-24">
-          <div className="mx-auto mb-7 inline-flex items-center gap-2 rounded-full border border-teal-600/20 bg-teal-500/10 px-4 py-2 text-xs text-teal-800">
-            <span className="h-1.5 w-1.5 rounded-full bg-teal-500" />
-            آماده برای ساخت چیزهای بزرگ
-          </div>
-
-          <h1 className="mx-auto max-w-4xl text-5xl font-black leading-[1.18] tracking-tight text-slate-900 sm:text-6xl lg:text-7xl">
-            از ایده تا محصول، <span className="text-teal-600">سریع‌تر</span>{" "}
-            حرکت کنید.
-          </h1>
-
-          <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
-            یک نقطه شروع سبک، حرفه‌ای و فارسی برای ساخت تجربه‌های دیجیتال مدرن
-            با تکنولوژی‌های دوست‌داشتنی وب.
-          </p>
-
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a
-              href="#شروع"
-              className="flex items-center gap-2 rounded-full bg-teal-500 px-6 py-3.5 text-sm font-bold text-white transition hover:bg-teal-600"
-            >
-              شروع کنید <Arrow className="h-4 w-4" />
-            </a>
-
-            <a
-              href="#ویژگی‌ها"
-              className="rounded-full border border-slate-300 px-6 py-3.5 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:bg-white"
-            >
-              مشاهده امکانات
-            </a>
-          </div>
-
-          <div className="mx-auto mt-16 grid max-w-3xl grid-cols-3 border-y border-slate-200 py-6 text-right">
+        <div className="mx-auto max-w-6xl space-y-7 px-5 py-7 sm:px-8">
+          <section className="flex flex-col justify-between gap-5 rounded-3xl bg-[#244B3B] p-6 text-white sm:flex-row sm:items-center sm:p-8">
             <div>
-              <p className="text-2xl font-bold text-slate-900">Next 15</p>
-              <p className="mt-1 text-xs text-slate-500">فریم‌ورک</p>
+              <p className="text-sm text-white/70">به مسیر سلامتی خوش اومدی</p>
+              <h2 className="mt-3 text-2xl font-bold leading-relaxed sm:text-3xl">
+                امروز، یک فرصت تازه برای
+                <br className="hidden sm:block" /> مراقبت از خودته.
+              </h2>
+              <p className="mt-3 text-sm text-white/65">
+                با برنامه‌ات پیش برو و به هدفت نزدیک‌تر شو.
+              </p>
             </div>
 
-            <div className="border-x border-slate-200 px-6">
-              <p className="text-2xl font-bold text-slate-900">Tailwind</p>
-              <p className="mt-1 text-xs text-slate-500">استایل‌دهی</p>
+            <div className="flex h-24 w-24 shrink-0 items-center justify-center self-end rounded-full bg-white/10 text-5xl sm:self-center">
+              🌱
+            </div>
+          </section>
+
+          <section>
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="font-bold text-gray-800">خلاصه امروز</h2>
+              <span className="text-xs text-gray-400">هدف روزانه</span>
             </div>
 
-            <div className="pr-6">
-              <p className="text-2xl font-bold text-slate-900">TypeScript</p>
-              <p className="mt-1 text-xs text-slate-500">زبان</p>
+            <div className="grid gap-4 rounded-2xl border border-[#E9EDE9] bg-white p-5 sm:grid-cols-2 sm:items-center sm:p-7">
+              <div className="flex items-center gap-5">
+                <ProgressRing />
+                <div>
+                  <p className="text-sm text-gray-500">کالری مصرف‌شده</p>
+                  <p className="mt-2 text-3xl font-bold text-[#244B3B]">
+                    ۱,۳۲۰
+                  </p>
+                  <p className="mt-1 text-xs text-gray-400">
+                    از ۱,۹۰۰ کیلوکالری
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                {[
+                  { label: "پروتئین", value: "۹۵ / ۱۴۵ گرم", percent: "65%" },
+                  {
+                    label: "کربوهیدرات",
+                    value: "۱۵۰ / ۲۲۰ گرم",
+                    percent: "68%",
+                  },
+                  { label: "چربی", value: "۳۸ / ۵۵ گرم", percent: "69%" },
+                ].map((item) => (
+                  <div key={item.label}>
+                    <div className="mb-2 flex justify-between text-xs">
+                      <span className="text-gray-500">{item.label}</span>
+                      <span className="font-medium text-gray-700">
+                        {item.value}
+                      </span>
+                    </div>
+                    <div className="h-2 overflow-hidden rounded-full bg-[#EDF1ED]">
+                      <div
+                        className="h-full rounded-full bg-[#789783]"
+                        style={{ width: item.percent }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+
+          <section>
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="font-bold text-gray-800">وضعیت بدن</h2>
+              <a href="/profile" className="text-xs font-medium text-[#52745E]">
+                مشاهده پروفایل
+              </a>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+              <StatCard
+                title="وزن فعلی"
+                value="۶۵"
+                unit="کیلوگرم"
+                description="آخرین ثبت وزن"
+                icon={Weight}
+              />
+              <StatCard
+                title="شاخص توده بدنی"
+                value="۲۳.۵"
+                unit="BMI"
+                description="در محدوده نرمال"
+                icon={ChartNoAxesCombined}
+              />
+              <div className="col-span-2 sm:col-span-1">
+                <StatCard
+                  title="هدف وزنی"
+                  value="۶۰"
+                  unit="کیلوگرم"
+                  description="۵ کیلوگرم تا هدف"
+                  icon={Target}
+                />
+              </div>
+            </div>
+          </section>
+
+          <section id="meals">
+            <div className="mb-4 flex items-center justify-between">
+              <div>
+                <h2 className="font-bold text-gray-800">وعده‌های امروز</h2>
+                <p className="mt-1 text-xs text-gray-400">
+                  برنامه غذایی روزانه تو
+                </p>
+              </div>
+              <a href="#meals" className="text-xs font-medium text-[#52745E]">
+                برنامه کامل ←
+              </a>
+            </div>
+
+            <div className="space-y-3">
+              {meals.map((meal) => (
+                <article
+                  key={meal.name}
+                  className="flex items-center gap-4 rounded-2xl border border-[#E9EDE9] bg-white p-4 transition hover:border-[#B9CBBB]"
+                >
+                  <div
+                    className={`grid h-12 w-12 shrink-0 place-items-center rounded-xl ${meal.color}`}
+                  >
+                    <meal.icon
+                      size={23}
+                      strokeWidth={1.7}
+                      className="text-[#52745E]"
+                    />
+                  </div>
+
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h3 className="text-sm font-bold text-gray-800">
+                        {meal.name}
+                      </h3>
+                      <span className="text-xs text-gray-400">{meal.time}</span>
+                    </div>
+                    <p className="mt-1 truncate text-sm text-gray-600">
+                      {meal.title}
+                    </p>
+                    <p className="mt-1 hidden text-xs text-gray-400 sm:block">
+                      {meal.detail}
+                    </p>
+                  </div>
+
+                  <div className="shrink-0 text-left">
+                    <p className="font-bold text-[#244B3B]">{meal.calories}</p>
+                    <p className="text-[10px] text-gray-400">کیلوکالری</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section
+            id="progress"
+            className="flex flex-col justify-between gap-4 rounded-2xl border border-[#E9EDE9] bg-white p-5 sm:flex-row sm:items-center"
+          >
+            <div>
+              <h2 className="font-bold text-gray-800">پیشرفتت رو دنبال کن</h2>
+              <p className="mt-2 text-sm text-gray-500">
+                تغییرات وزن و روند رسیدن به هدفت رو بررسی کن.
+              </p>
+            </div>
+            <a
+              href="#progress"
+              className="rounded-xl bg-[#E9F0EA] px-5 py-3 text-center text-sm font-semibold text-[#244B3B] transition hover:bg-[#DCE8DD]"
+            >
+              مشاهده پیشرفت
+            </a>
+          </section>
+        </div>
       </div>
 
-      <section id="ویژگی‌ها" className="mx-auto max-w-6xl px-6 py-24 lg:px-8">
-        <div className="max-w-xl">
-          <p className="text-sm font-semibold text-teal-700">
-            همه‌چیز سر جای خودش
-          </p>
-
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-            پایه‌ای محکم برای ایده‌های تازه
-          </h2>
-        </div>
-
-        <div className="mt-12 grid gap-4 md:grid-cols-3">
-          {features.map(([title, text], index) => (
-            <article
-              key={title}
-              className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-teal-300 hover:shadow-md"
-            >
-              <span className="grid h-9 w-9 place-items-center rounded-lg bg-teal-50 text-sm font-bold text-teal-700">
-                0{index + 1}
-              </span>
-
-              <h3 className="mt-6 text-lg font-bold text-slate-900">{title}</h3>
-
-              <p className="mt-3 text-sm leading-7 text-slate-600">{text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section id="شروع" className="mx-auto mb-10 max-w-6xl px-6 lg:px-8">
-        <div className="rounded-3xl border border-teal-200 bg-gradient-to-l from-teal-50 to-indigo-50 px-7 py-12 text-center sm:px-12">
-          <Spark className="mx-auto h-7 w-7 text-teal-600" />
-
-          <h2 className="mt-5 text-3xl font-bold text-slate-900">
-            برای اولین انتشار آماده‌اید؟
-          </h2>
-
-          <p className="mx-auto mt-3 max-w-lg text-sm leading-7 text-slate-600">
-            وابستگی‌ها را نصب کنید و با یک دستور، مسیر ساخت محصولتان را آغاز
-            کنید.
-          </p>
-
-          <code
-            className="mt-7 inline-block rounded-lg border border-slate-200 bg-white px-5 py-3 text-sm text-teal-700 shadow-sm"
-            dir="ltr"
+      <nav className="fixed bottom-0 left-0 right-0 z-20 flex border-t border-[#E9EDE9] bg-white px-2 py-2 lg:hidden">
+        {navigation.map((item) => (
+          <a
+            key={item.label}
+            href={item.href}
+            className={`flex flex-1 flex-col items-center gap-1 rounded-xl py-2 text-xs ${
+              item.active ? "font-bold text-[#244B3B]" : "text-gray-400"
+            }`}
           >
-            npm run dev
-          </code>
-        </div>
-      </section>
-
-      <footer className="mx-auto flex max-w-6xl justify-between px-6 py-7 text-xs text-slate-500 lg:px-8">
-        <span>© ۲۰۲۶ نُوا</span>
-        <span>ساخته‌شده با دقت</span>
-      </footer>
+            <item.icon size={20} strokeWidth={1.8} /> {item.label}
+          </a>
+        ))}
+      </nav>
     </main>
   );
 }
