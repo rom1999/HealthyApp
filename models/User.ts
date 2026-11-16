@@ -1,40 +1,32 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, type Model } from "mongoose";
 
-export interface IUser extends mongoose.Document {
-  name: string;
-  email: string;
-  passwordHash: string;
-}
-
-const UserSchema = new Schema<IUser>(
+const UserSchema = new Schema(
   {
-    name: {
-      type: String,
-      trim: true,
-      default: "",
+    name: { type: String, required: true, trim: true },
+    email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+    passwordHash: { type: String, required: true, select: false },
+    profile: {
+      birthDate: Date,
+      sex: { type: String, enum: ["female", "male", "other", "unspecified"], default: "unspecified" },
+      heightCm: { type: Number, min: 50, max: 250 },
+      currentWeightKg: { type: Number, min: 20, max: 400 },
+      goalWeightKg: { type: Number, min: 20, max: 400 },
+      activityLevel: {
+        type: String,
+        enum: ["sedentary", "light", "moderate", "active", "very-active"],
+        default: "sedentary",
+      },
+      goal: { type: String, enum: ["lose", "maintain", "gain"], default: "maintain" },
+      dietaryPreferences: [{ type: String }],
+      allergies: [{ type: String }],
     },
-
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      lowercase: true,
-      trim: true,
-    },
-
-    passwordHash: {
-      type: String,
-      required: true,
-      select: false,
-    },
+    role: { type: String, enum: ["user", "admin"], default: "user" },
+    isActive: { type: Boolean, default: true },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-const User =
-  (mongoose.models.User as mongoose.Model<IUser>) ||
-  mongoose.model<IUser>("User", UserSchema);
+const User: Model<any> =
+  (mongoose.models.User as Model<any>) || mongoose.model("User", UserSchema);
 
 export default User;
