@@ -1,1 +1,1 @@
-# Healty
+# HealthyApp
